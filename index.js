@@ -48,9 +48,9 @@ app.post("/webhook", function (req, res) {
 function processMessage(event) {
   if (!event.message.is_echo) {
     var message = event.message;
-    var senderId = event.sender.id;
+    var senderID = event.sender.id;
 
-    console.log("Received message from senderId: " + senderId);
+    console.log("Received message from senderId: " + senderID);
     console.log("Message is: " + JSON.stringify(message));
 
     // You may get a text or attachment but not both
@@ -58,7 +58,7 @@ function processMessage(event) {
     	console.log(message.text);
     	if (message.text == "CS246") sendMessage(senderID, {text: "Test."});
     } else if (message.attachments) {
-      sendMessage(senderId, {text: "Sorry, I don't understand your request."});
+      sendMessage(senderID, {text: "Sorry, I don't understand your request."});
     }
   }
 }
