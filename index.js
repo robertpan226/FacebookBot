@@ -6,13 +6,13 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
-
-//var webshot = require('webshot');
-//var fs      = require('fs');
+/*
+var webshot = require('webshot');
+var fs      = require('fs');
 
 renderStream.on('data', function(data) {
   file.write(data.toString('binary'), 'binary');
-});
+}); */
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
