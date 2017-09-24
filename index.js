@@ -2,13 +2,17 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 
-var apiFunction = require("apiAccess.js");
-
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
 
+//var webshot = require('webshot');
+//var fs      = require('fs');
+
+renderStream.on('data', function(data) {
+  file.write(data.toString('binary'), 'binary');
+});
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
@@ -57,8 +61,15 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
-    	var temp = apiFunction.getTerm();
-    	if (message.text == "CS246") sendMessage(senderID, {text: temp});
+    	var parsedCourse = message.text.split("");
+    	var num = parseStr(prasedCourse[parsedCourse.length-1]) + parseStr(prasedCourse[parsedCourse.length-2]) + parseStr(prasedCourse[parsedCourse.length-3]);
+    	sendMessage(senderID, {text: num});
+    	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject=CS&cournum=";
+
+    	//var renderStream = webshot('goog');
+		//var file = fs.createWriteStream('google.png', {encoding: 'binary'});
+    		
+    	
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
     }
