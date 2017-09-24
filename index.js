@@ -6,13 +6,11 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.listen((process.env.PORT || 5000));
-/*
+
 var webshot = require('webshot');
 var fs      = require('fs');
 
-renderStream.on('data', function(data) {
-  file.write(data.toString('binary'), 'binary');
-}); */
+
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
@@ -64,9 +62,12 @@ function processMessage(event) {
     	var parsedCourse = message.text.split(/(\d+)/);
     	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
     	sendMessage(senderID, {text: url});
-    	//var renderStream = webshot('goog');
-		//var file = fs.createWriteStream('google.png', {encoding: 'binary'});
-    		
+    	var renderStream = webshot(url);
+		var file = fs.createWriteStream('google.png', {encoding: 'binary'});
+    	renderStream.on('data', function(data) {
+		  file.write(data.toString('binary'), 'binary');
+		}); 
+    	
     	
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
