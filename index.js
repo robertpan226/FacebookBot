@@ -61,11 +61,9 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
-    	var parsedCourse = message.text.split("");
-    	var num = String(prasedCourse[parsedCourse.length-1]) + String(prasedCourse[parsedCourse.length-2]) + String(prasedCourse[parsedCourse.length-3]);
-    	sendMessage(senderID, {text: num});
-    	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject=CS&cournum=";
-
+    	var parsedCourse = message.text.split(/(\d+)/);
+    	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
+    	sendMessage(senderID, {text: url});
     	//var renderStream = webshot('goog');
 		//var file = fs.createWriteStream('google.png', {encoding: 'binary'});
     		
