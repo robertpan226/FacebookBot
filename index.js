@@ -57,7 +57,8 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
-    	if (message.text == "CS246") sendMessage(senderID, {text: apiFunction()});
+    	var temp = apiFunction();
+    	if (message.text == "CS246") sendMessage(senderID, {text: temp});
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
     }
