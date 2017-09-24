@@ -2,6 +2,8 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 
+var apiFunction = require("./apiAccess");
+
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -55,8 +57,7 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
-    	console.log(message.text);
-    	if (message.text == "CS246") sendMessage(senderID, {text: "Test."});
+    	if (message.text == "CS246") sendMessage(senderID, {text: apiFunction.getTerm});
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
     }
