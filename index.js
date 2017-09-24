@@ -2,7 +2,7 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 
-var apiFunction = require("apiAccess.js");
+var apiFunction = require("apiAccess");
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
