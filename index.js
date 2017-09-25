@@ -134,7 +134,7 @@ function sendImage(recipientId, message) {
       message: {
       	attachment: {
       		type: "image",
-      		payload: file,
+      		payload: message,
       		is_reusable: true
       	}
       }
