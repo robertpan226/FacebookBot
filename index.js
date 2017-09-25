@@ -118,7 +118,7 @@ function receivedPostback(event) {
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
 
-  if (payload === "Get Started"){
+  if (payload === "Greeting"){
 	  request({
 	      url: "https://graph.facebook.com/v2.6/" + senderID,
 	      qs: {
