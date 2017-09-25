@@ -6,7 +6,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
-var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
+const apiAccess = require('apiAccess.js');
+//var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
 
 // The rest of the code implements the routes for our Express server.
 let app = express();
@@ -31,7 +32,7 @@ app.get('/webhook', function(req, res) {
 // Display the web page
 app.get('/', function(req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
-  res.write(messengerButton);
+  //res.write(messengerButton);
   res.end();
 });
 
@@ -89,15 +90,18 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches a keyword
     // and send back the template example. Otherwise, just echo the text we received.
     switch (messageText) {
-      case 'generic':
-        sendGenericMessage(senderID);
+      case 'help':
+        sendTextMessage(senderID, "To get the schedule of a course, please enter the full course number. Ex. CS241."});
         break;
-
       default:
-        sendTextMessage(senderID, messageText);
+        apiAccess.getTerm(function(num) {
+    		var parsedCourse = messageText.split(/(\d+)/);
+     		var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess="+num+"&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
+  			sendGenericMessage(senderID, messageText, url);
+  		});
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    //sendTextMessage(senderID, "Message with attachment received");
   }
 }
 
@@ -134,7 +138,7 @@ function sendTextMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
-function sendGenericMessage(recipientId) {
+function sendGenericMessage(recipientId, courseName, url) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -145,33 +149,19 @@ function sendGenericMessage(recipientId) {
         payload: {
           template_type: "generic",
           elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
+            title: courseName+" Schedule",
+            subtitle: "Course availability for "+courseName,
+            //item_url: url,               
+            //image_url: "http://messengerdemo.parseapp.com/img/rift.png",
             buttons: [{
               type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
+              url: url,
               title: "Open Web URL"
             }, {
               type: "postback",
               title: "Call Postback",
               payload: "Payload for first bubble",
             }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
           }]
         }
       }
