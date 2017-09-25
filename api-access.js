@@ -4,12 +4,12 @@ var uwclient = new uwaterlooApi({
 })
 
 module.exports = {
-		getTerm = function(callback){
+		getTerm: function(callback){
 		uwclient.get('terms/list', {}, function(err, res){
 			callback(res["data"]["current_term"]);
 		});
   }
-    validCourse = function(callback){
+    validCourse: function(callback){
     uwclient.get('/courses', {}, function(err, res){
       callback(res);
     });
