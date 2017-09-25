@@ -70,7 +70,7 @@ function processMessage(event) {
 		  file.write(data.toString('binary'), 'binary');
 		});
 
-		sendImage(senderID, {text: file});
+		sendImage(senderID, file);
     	 
 
     } else if (message.attachments) {
