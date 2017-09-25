@@ -1,6 +1,7 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+var apiAccess = require("apiAccess");
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -61,17 +62,21 @@ function processMessage(event) {
     	if (message.text == "help"){
     		sendMessage(senderID, {text: "To get the schedule of a course, please enter the full course number. Ex. CS241."});
     	}
-    	var parsedCourse = message.text.split(/(\d+)/);
-    	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
-    	var renderStream = webshot(url);
-		var file = fs.createWriteStream('google.png', {encoding: 'binary'});
+    	else {
+    		apiAccess.getTerm(function(num) {
+    			var parsedCourse = message.text.split(/(\d+)/);
+     			var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess="+num+"&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
+  			   	var renderStream = webshot(url);
+				var file = fs.createWriteStream('google.png', {encoding: 'binary'});
     	
-    	renderStream.on('data', function(data) {
-		  file.write(data.toString('binary'), 'binary');
-		});
+  				renderStream.on('data', function(data) {
+			    	file.write(data.toString('binary'), 'binary');
+		 		});
 
-		sendImage(senderID, file);
-    	 
+				// sendImage(senderID, {text: file});
+    		});
+    	}
+  //   	 
 
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
