@@ -58,7 +58,7 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
-    	if (message.text = "help"){
+    	if (message.text == "help"){
     		sendMessage(senderID, {text: "To get the schedule of a course, please enter the full course number. Ex. CS241."});
     	}
     	var parsedCourse = message.text.split(/(\d+)/);
