@@ -70,7 +70,7 @@ function processMessage(event) {
 		  file.write(data.toString('binary'), 'binary');
 		});
 
-		sendMessage(senderID, {text: file});
+		sendImage(senderID, {text: file});
     	 
 
     } else if (message.attachments) {
@@ -131,8 +131,13 @@ function sendImage(recipientId, message) {
     method: "POST",
     json: {
       recipient: {id: recipientId},
-      message: message,
-
+      message: {
+      	attachment: {
+      		type: "image",
+      		payload: file,
+      		is_reusable: true
+      	}
+      }
     }
   }, function(error, response, body) {
     if (error) {
