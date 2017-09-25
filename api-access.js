@@ -8,7 +8,7 @@ module.exports = {
 		uwclient.get('terms/list', {}, function(err, res){
 			callback(res["data"]["current_term"]);
 		});
-  }
+  },
     validCourse: function(callback){
     uwclient.get('/courses', {}, function(err, res){
       callback(res);
