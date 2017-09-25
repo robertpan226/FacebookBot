@@ -157,10 +157,6 @@ function sendGenericMessage(recipientId, courseName, url) {
               type: "web_url",
               url: url,
               title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
             }],
           }]
         }
