@@ -98,7 +98,7 @@ function receivedMessage(event) {
     		var parsedCourse = messageText.split(/(\d+)/);
      		var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess="+num+"&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
   			
-     		validCourse(function(x){
+     		apiAccess.validCourse(function(x){
      			var found = false;
   				for (var i = 0; i < x["data"].length; i++){
       				if (parsedCourse[0] == x["data"][i]["subject"] && parsedCourse[1] == x["data"][i]["catalog_number"]){
