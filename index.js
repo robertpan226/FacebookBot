@@ -10,7 +10,6 @@ app.listen((process.env.PORT || 5000));
 var webshot = require('webshot');
 var fs      = require('fs');
 
-
 // Server index page
 app.get("/", function (req, res) {
   res.send("Deployed!");
@@ -59,16 +58,19 @@ function processMessage(event) {
 
     // You may get a text or attachment but not both
     if (message.text) {
+    	if (message.text = "help"){
+    		sendMessage(senderID, {text: "To get the schedule of a course, please enter the full course number. Ex. CS241."});
+    	}
     	var parsedCourse = message.text.split(/(\d+)/);
     	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
-    	sendMessage(senderID, {text: url});
     	var renderStream = webshot(url);
 		var file = fs.createWriteStream('google.png', {encoding: 'binary'});
+    	sendMessage(senderID, {text: file});
+    	
     	renderStream.on('data', function(data) {
 		  file.write(data.toString('binary'), 'binary');
 		}); 
-    	
-    	
+
     } else if (message.attachments) {
       sendMessage(senderID, {text: "Sorry, I don't understand your request."});
     }
@@ -113,6 +115,22 @@ function sendMessage(recipientId, message) {
     json: {
       recipient: {id: recipientId},
       message: message,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log("Error sending message: " + response.error);
+    }
+  });
+}
+function sendImage(recipientId, message) {
+  request({
+    url: "https://graph.facebook.com/v2.6/me/messages",
+    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+    method: "POST",
+    json: {
+      recipient: {id: recipientId},
+      message: message,
+
     }
   }, function(error, response, body) {
     if (error) {
