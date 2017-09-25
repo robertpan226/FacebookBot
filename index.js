@@ -133,9 +133,9 @@ function receivedPostback(event) {
 	      } else {
 	        var bodyObj = JSON.parse(body);
 	        name = bodyObj.first_name;
-	        greeting = "Hi " + name + ". ";
+	        greeting = "Hi " + name + "! ";
 	      }
-	      var message = greeting + "Hi! To check a class schedule, simply type the course number followed by the academic session.";
+	      var message = greeting + "To check a class schedule, simply type the course number (like MATH135).";
 	      sendTextMessage(senderID, message);
 	    });
     }
