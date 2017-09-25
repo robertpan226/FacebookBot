@@ -91,7 +91,7 @@ function receivedMessage(event) {
     // and send back the template example. Otherwise, just echo the text we received.
     switch (messageText) {
       case 'help':
-        sendTextMessage(senderID, "To get the schedule of a course, please enter the full course number. Ex. CS241."});
+        sendTextMessage(senderID, "To get the schedule of a course, please enter the full course number. Ex. CS241.");
         break;
       default:
         apiAccess.getTerm(function(num) {
