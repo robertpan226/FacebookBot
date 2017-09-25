@@ -114,30 +114,31 @@ function receivedPostback(event) {
   // button for Structured Messages. 
   var payload = event.postback.payload;
 
-    request({
-      url: "https://graph.facebook.com/v2.6/" + senderId,
-      qs: {
-        access_token: process.env.PAGE_ACCESS_TOKEN,
-        fields: "first_name"
-      },
-      method: "GET"
-    }, function(error, response, body) {
-      var greeting = "";
-      if (error) {
-        console.log("Error getting user's name: " +  error);
-      } else {
-        var bodyObj = JSON.parse(body);
-        name = bodyObj.first_name;
-        greeting = "Hi " + name + ". ";
-      }
-      var message = greeting + "Hi! To check a class schedule, simply type the course number followed by the academic session.";
-      sendTextMessage(senderID, message);
-    });
-  }
-
   console.log("Received postback for user %d and page %d with payload '%s' " + 
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
+
+  if (payload === "Get Started"){
+	  request({
+	      url: "https://graph.facebook.com/v2.6/" + senderID,
+	      qs: {
+	        access_token: process.env.PAGE_ACCESS_TOKEN,
+	        fields: "first_name"
+	      },
+	      method: "GET"
+	    }, function(error, response, body) {
+	      var greeting = "";
+	      if (error) {
+	        console.log("Error getting user's name: " +  error);
+	      } else {
+	        var bodyObj = JSON.parse(body);
+	        name = bodyObj.first_name;
+	        greeting = "Hi " + name + ". ";
+	      }
+	      var message = greeting + "Hi! To check a class schedule, simply type the course number followed by the academic session.";
+	      sendTextMessage(senderID, message);
+	    });
+    }
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   //sendTextMessage(senderID, "Postback called");
