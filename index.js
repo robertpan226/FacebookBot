@@ -65,7 +65,7 @@ function processMessage(event) {
     	var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess=1179&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
     	var renderStream = webshot(url);
 		var file = fs.createWriteStream('google.png', {encoding: 'binary'});
-    	sendMessage(senderID, {text: file});
+    	sendMessage(senderID, {text: typeof(file)});
     	
     	renderStream.on('data', function(data) {
 		  file.write(data.toString('binary'), 'binary');
