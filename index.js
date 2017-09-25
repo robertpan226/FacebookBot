@@ -114,9 +114,6 @@ function receivedPostback(event) {
   // button for Structured Messages. 
   var payload = event.postback.payload;
 
-  if (payload === "Get Started") {
-    // Get user's first name from the User Profile API
-    // and include it in the greeting
     request({
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
@@ -143,7 +140,7 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  //sendTextMessage(senderID, "Postback called");
 }
 
 //////////////////////////
