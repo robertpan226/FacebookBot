@@ -94,7 +94,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "To get the schedule of a course, please enter the full course number. Ex. CS241.");
         break;
       default:
-        apiAccess.getTerm(function(num) {
+        apiAccess.currentTerm(function(num) {
     		var parsedCourse = messageText.split(/(\d+)/);
      		var url = "http://www.adm.uwaterloo.ca/cgi-bin/cgiwrap/infocour/salook.pl?level=under&sess="+num+"&subject="+parsedCourse[0]+"&cournum="+parsedCourse[1];
   			
@@ -106,7 +106,7 @@ function receivedMessage(event) {
         				sendGenericMessage(senderID, messageText, url);
         			}
         		}
-        		if (!found) sendTextMessage(senderID, "Invalid Course!"); 
+        		if (!found) sendTextMessage(senderID, "Invalid Course! Please enter a valid course number."); 
         	});
   			
   		});
@@ -146,7 +146,7 @@ function receivedPostback(event) {
 	        name = bodyObj.first_name;
 	        greeting = "Hi " + name + "! ";
 	      }
-	      var message = greeting + "To check a class schedule, simply type the course number (like MATH135).";
+	      var message = greeting + "To check a class schedule, simply type the course number (like MATH135). Or type 'help'.";
 	      sendTextMessage(senderID, message);
 	    });
     }

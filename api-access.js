@@ -4,7 +4,7 @@ var uwclient = new uwaterlooApi({
 })
 
 module.exports = {
-		getTerm: function(callback){
+		currentTerm: function(callback){
 		uwclient.get('terms/list', {}, function(err, res){
 			callback(res["data"]["current_term"]);
 		});
