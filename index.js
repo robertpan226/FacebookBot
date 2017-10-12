@@ -80,8 +80,6 @@ function receivedMessage(event) {
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
 
-  var messageId = message.mid;
-
   var messageText = message.text;
   var messageAttachments = message.attachments;
 
@@ -89,7 +87,7 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches a keyword
     // and send back the template example. Otherwise, just echo the text we received.
     switch (messageText) {
-      case 'help':
+      case 'Help':
         sendTextMessage(senderID, "To get the schedule of a course, please enter the full course number. Ex. CS241.");
         break;
       default:
